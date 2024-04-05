@@ -38,23 +38,11 @@ int main() {
 
                 if(isFileTxt(path, ".txt") == true){
                     fileEncrypt = fopen(path, "r");
-
-                    //calls the function Encrypt.
-                    //Encrypt(fileEncrypt);
-                    printf("\nThe file has been encrypted.");
-                }
-                //Takes only the last 4 characters of the path.
-                char *last_four = &path[strlen(path) - 4];
-                //Checks if the file is a .txt file comparing the last 4 characters with .txt.
-                if (strcmp(last_four, ".txt") == 0) {
-                    fileEncrypt = fopen(path, "r");
                 }
             }
             //calls the function Encrypt.
             //Encrypt(fileEncrypt);
             printf("\nThe file has been encrypted.");
-
-            //The user wants to decrypt a file.
         }
 
         //DECRYPT
@@ -65,10 +53,8 @@ int main() {
             while (fileDecrypt == NULL) {
                 printf("Insert the path of the file you want to Decrypt: \n");
                 scanf("%s", path);
-                //while to get a valid path to a file to encrypt.
-                char *last_four = &path[strlen(path) - 4];
-                //Checks if the file is a .txt file comparing the last 4 characters with .txt.
-                if (strcmp(last_four, ".txt") == 0) {
+                
+                if (isFileTxt(path, ".txt") == true) {
                     fileDecrypt = fopen(path, "r");
                 }
             }
@@ -78,9 +64,8 @@ int main() {
             while (keyFile == NULL) {
                 printf("Insert the path of the key: \n");
                 scanf("%s", path);
-                //Checks if the file is a .txt file comparing the last 4 characters with .txt.
-                char *last_four = &path[strlen(path) - 4];
-                if (strcmp(last_four, ".txt") == 0) {
+
+                if (isFileTxt(path, ".txt") == true) {
                     keyFile = fopen(path, "r");
                 }
             }
@@ -94,11 +79,7 @@ int main() {
             //The user wants to exit the program.
         }
 
-        //BRUTE FORCE
-        //TODO
-        else if (userAnswer == 3) {}
-
-        //OTHER
+        //CLOSE
         else if (userAnswer == 0) {
             //The user wants to exit so the files are closed.
             fclose(fileEncrypt);
