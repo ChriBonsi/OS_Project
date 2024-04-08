@@ -5,11 +5,9 @@
 #include <string.h>
 #include "FileEncrypter.h"
 
-#define N 40000
 int userAnswer;
 int *intArray;
 FILE *fileEncrypt;
-char path[N];
 FILE *fileDecrypt;
 FILE *keyFile;
 
@@ -31,55 +29,64 @@ int main() {
         if (userAnswer == 1) {
             //set to NULL in case of multiple executions.
             fileEncrypt = NULL;
-            //while to get a valid path to a file to encrypt.
+            //while to get a valid filePath to a file to encrypt.
             while (fileEncrypt == NULL) {
                 printf("Insert the path of the file you want to encrypt: \n");
-                scanf("%s", path);
+                if (fgets(filePath, sizeof(filePath), stdin) != NULL) {
+                    // Remove the trailing newline character
+                    filePath[strcspn(filePath, "\n")] = '\0';
+                    //printf("%s\n", filePath);
 
-                if(isFileTxt(path, ".txt") == true){
-                    fileEncrypt = fopen(path, "r");
+                    if (isFileTxt(filePath, ".txt") == true) {
+                        fileEncrypt = fopen(filePath, "r");
+                        if (fileEncrypt == NULL) {
+                            printf("Error: File not found.\n");
+                        }
+                    }
                 }
             }
             //calls the function Encrypt.
-            //Encrypt(fileEncrypt);
+            Encrypt(fileEncrypt);
             printf("\nThe file has been encrypted.");
         }
 
-        //DECRYPT
+            //DECRYPT
         else if (userAnswer == 2) {
             //set to NULL in case of multiple executions.
             fileDecrypt = NULL;
-            //while to get a valid path to a file to decrypt.
+            //while to get a valid filePath to a file to decrypt.
             while (fileDecrypt == NULL) {
-                printf("Insert the path of the file you want to Decrypt: \n");
-                scanf("%s", path);
-                
-                if (isFileTxt(path, ".txt") == true) {
-                    fileDecrypt = fopen(path, "r");
+                printf("Insert the path of the file you want to decrypt: \n");
+                scanf("%s", filePath);
+
+                printf("%s", filePath);
+
+                if (isFileTxt(filePath, ".txt") == true) {
+                    fileDecrypt = fopen(filePath, "r");
                 }
             }
             //set to NULL in case of multiple executions.
             keyFile = NULL;
-            //while to get a valid path to the key of the file to decrypt.
+            //while to get a valid filePath to the key of the file to decrypt.
             while (keyFile == NULL) {
                 printf("Insert the path of the key: \n");
-                scanf("%s", path);
+                scanf("%s", filePath);
 
-                if (isFileTxt(path, ".txt") == true) {
-                    keyFile = fopen(path, "r");
+                if (isFileTxt(filePath, ".txt") == true) {
+                    keyFile = fopen(filePath, "r");
                 }
             }
             //calls the function getKey and gives the return to intArray.
-            //TODO intArray = getKey(keyFile);
+            intArray = getKey(keyFile);
 
             //calls the function Decrypt.
-            //TODO Decrypt(fileDecrypt, intArray);
+            Decrypt(fileDecrypt, intArray);
             printf("\nThe file has been decrypted.");
 
             //The user wants to exit the program.
         }
 
-        //CLOSE
+            //CLOSE
         else if (userAnswer == 0) {
             //The user wants to exit so the files are closed.
             fclose(fileEncrypt);

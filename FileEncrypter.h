@@ -4,9 +4,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#ifndef OS_PROJECT_SIMPLEFILECRYPTER_H
-#define OS_PROJECT_SIMPLEFILECRYPTER_H
-#endif //OS_PROJECT_SIMPLEFILECRYPTER_H
+#define N 40000
+extern char filePath[N]; // Declaration of the filePath variable
+
+
+#ifndef OS_PROJECT_FILE_ENCRYPTER_H
+#define OS_PROJECT_FILE_ENCRYPTER_H
+#endif //OS_PROJECT_FILE_ENCRYPTER_H
 
 /**
  * It reads the file, generates a random key, and then encrypts the file in a new file.
@@ -15,7 +19,7 @@
 void Encrypt(FILE *readFile);
 
 /**
- * It reads a crypted file, takes the associated key and decrypts it.
+ * It reads an encrypted file, takes the associated key and decrypts it.
  * @param readFile The file we want to read from.
  * @param keyBuffer The key used to previously encrypt the file.
  */
@@ -35,9 +39,9 @@ void generateRandomKey();
 int * getKey(FILE *keyFile);
 
 /**
- * This function takes only the last 4 characters of the path and
+ * This function takes only the last 4 characters of the filePath and
  * checks if it is the desired format.
  * @param file The file to be checked.
  * @return True if the file is empty, false otherwise.
  */
-bool isFileTxt(char *filePath, char *fileExtension);
+bool isFileTxt(char *pathForFile, char *fileExtension);
