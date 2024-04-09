@@ -32,18 +32,15 @@ int main() {
             //while to get a valid filePath to a file to encrypt.
             while (fileEncrypt == NULL) {
                 printf("Insert the path of the file you want to encrypt: \n");
-                if (fgets(filePath, sizeof(filePath), stdin) != NULL) {
-                    // Remove the trailing newline character
-                    filePath[strcspn(filePath, "\n")] = '\0';
-                    //printf("%s\n", filePath);
+                scanf("%s", filePath);
 
-                    if (isFileTxt(filePath, ".txt") == true) {
-                        fileEncrypt = fopen(filePath, "r");
-                        if (fileEncrypt == NULL) {
-                            printf("Error: File not found.\n");
-                        }
+                if (isFileTxt(filePath, ".txt") == true) {
+                    fileEncrypt = fopen(filePath, "r");
+                    if (fileEncrypt == NULL) {
+                        printf("Error: File not found.\n");
                     }
                 }
+
             }
             //calls the function Encrypt.
             Encrypt(fileEncrypt);
@@ -58,8 +55,6 @@ int main() {
             while (fileDecrypt == NULL) {
                 printf("Insert the path of the file you want to decrypt: \n");
                 scanf("%s", filePath);
-
-                printf("%s", filePath);
 
                 if (isFileTxt(filePath, ".txt") == true) {
                     fileDecrypt = fopen(filePath, "r");
@@ -93,7 +88,7 @@ int main() {
             fclose(fileDecrypt);
             fclose(keyFile);
             printf("\nExiting the program...");
-            printf("\nGoodbye.");
+            printf("\nGoodbye.\n");
             return 0;
         }
 
