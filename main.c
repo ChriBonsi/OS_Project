@@ -103,7 +103,7 @@ int main() {
             scanf("%d", &userAnswer);
         } else {
             printf("\nExiting the program...");
-            printf("\nGoodbye.");
+            printf("\nGoodbye.\n");
             return 0;
         }
     }
