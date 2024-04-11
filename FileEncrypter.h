@@ -36,7 +36,7 @@ void generateRandomKey();
  * @param keyFile The file that contains the key.
  * @return The keyArray is being returned.
  */
-int * getKey(FILE *keyFile);
+int *getKey(FILE *keyFile);
 
 /**
  * This function takes only the last 4 characters of the filePath and

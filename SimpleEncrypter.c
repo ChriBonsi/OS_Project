@@ -8,8 +8,8 @@
 #include <time.h>
 #include <unistd.h>
 
-FILE * tempFile;
-FILE * fileHandler;
+FILE *tempFile;
+FILE *fileHandler;
 char accessO[N];
 char accessG[N];
 char accessU[N];
@@ -42,19 +42,19 @@ void generateRandomKey() {
     fileHandler = NULL;
 
     //Insert, through user input, the filePath of the key to use.
-    while(fileHandler == NULL){
+    while (fileHandler == NULL) {
         printf("Insert the filePath where the key will be saved: \n");
         scanf("%s", filePath);
         //Takes only the last 4 characters of the filePath.
-        char * last_four = &filePath[strlen(filePath) - 4];
+        char *last_four = &filePath[strlen(filePath) - 4];
         //Checks if the file is a .txt file comparing the last 4 characters with .txt.
-        if(strcmp(last_four,".txt") == 0){
+        if (strcmp(last_four, ".txt") == 0) {
             //checks if there is already a file with the same name within that filePath.
-            if(access(filePath, 0) == 0){
+            if (access(filePath, 0) == 0) {
                 printf("\nIt already exists a file with this name.\n");
                 //used it to make the cycle repeat.
                 fileHandler = NULL;
-            }else {
+            } else {
                 fileHandler = fopen(filePath, "w");
             }
         }
@@ -62,21 +62,21 @@ void generateRandomKey() {
 
     //separates the digits of the number generated and writes them to the keyFile
     //separated by commas.
-    keyArray[4] = randomNumber%10;
-    keyArray[3] = (randomNumber)%100/10;
-    keyArray[2] = (randomNumber)%1000/100;
-    keyArray[1]= (randomNumber)%10000/1000;
-    keyArray[0]= randomNumber/10000;
+    keyArray[4] = randomNumber % 10;
+    keyArray[3] = (randomNumber) % 100 / 10;
+    keyArray[2] = (randomNumber) % 1000 / 100;
+    keyArray[1] = (randomNumber) % 10000 / 1000;
+    keyArray[0] = randomNumber / 10000;
     char separator[] = ",";
-    fprintf(fileHandler,"%d",keyArray[0]);
+    fprintf(fileHandler, "%d", keyArray[0]);
     fprintf(fileHandler, "%c", separator[0]);
-    fprintf(fileHandler,"%d",keyArray[1]);
+    fprintf(fileHandler, "%d", keyArray[1]);
     fprintf(fileHandler, "%c", separator[0]);
-    fprintf(fileHandler,"%d",keyArray[2]);
+    fprintf(fileHandler, "%d", keyArray[2]);
     fprintf(fileHandler, "%c", separator[0]);
-    fprintf(fileHandler,"%d",keyArray[3]);
+    fprintf(fileHandler, "%d", keyArray[3]);
     fprintf(fileHandler, "%c", separator[0]);
-    fprintf(fileHandler,"%d",keyArray[4]);
+    fprintf(fileHandler, "%d", keyArray[4]);
     fclose(fileHandler);
     //file access permissions
     sprintf(accessO, "chmod o=--- %s", filePath);
@@ -94,15 +94,14 @@ void generateRandomKey() {
  *
  * @return The keyArray is being returned.
  */
-int * getKey(FILE *keyFile){
-    for (int i = 0; i < 5; i++){
+int *getKey(FILE *keyFile) {
+    for (int i = 0; i < 5; i++) {
         fscanf(keyFile, "%d,", &keyArray[i]);
     }
     return keyArray;
 }
 
-
-
+//TODO controllare perchè taglia ultimo carattere
 /**
  * At first the function checks if the pointer of the file to encrypt exists: if it doesn't, it prints
  * that the file can't be opened and returns, otherwise it keeps going.
@@ -126,7 +125,8 @@ void Encrypt(FILE *readFile) {
 
     //A while cycle that reads every line of the readFile (saves them to buffer1)
     //and appends them in buffer (thanks to buffer1).
-    while(fgets(buffer1,N,readFile)){
+    while (fgets(buffer1, N, readFile)) {
+        printf("line: %s", buffer1);
         strcat(buffer, buffer1);
     }
 
@@ -134,19 +134,19 @@ void Encrypt(FILE *readFile) {
     tempFile = NULL;
 
     //Insert, through user input, the filePath of the encrypted file to create.
-    while(tempFile == NULL){
+    while (tempFile == NULL) {
         printf("Insert the filePath where you want to save the encrypted file: \n");
         scanf("%s", filePath);
         //Takes only the last 4 characters of the filePath.
-        char * last_four = &filePath[strlen(filePath) - 4];
+        char *last_four = &filePath[strlen(filePath) - 4];
         //Checks if the file is a .txt file comparing the last 4 characters with .txt.
-        if(strcmp(last_four,".txt") == 0){
+        if (strcmp(last_four, ".txt") == 0) {
             //checks if there is already a file with the same name within that filePath.
-            if(access(filePath, 0) == 0){
+            if (access(filePath, 0) == 0) {
                 printf("It already exists a file with this name.");
                 //used it to make the cycle repeat.
                 tempFile = NULL;
-            }else {
+            } else {
                 tempFile = fopen(filePath, "w");
             }
         }
@@ -157,12 +157,12 @@ void Encrypt(FILE *readFile) {
     //Count is used to go through the keyArray.
     int count = 0;
     //We go through the buffer until the character before \0 (EOF), and we encrypt it while cycling the key.
-    for (int i=0; i < effectiveFileLength-1; i++) {
+    for (int i = 0; i < effectiveFileLength - 1; i++) {
         //Writes to the encrypted file the character obtained from the sum of the character and key.
-        fprintf(tempFile,"%c",buffer[i]+keyArray[count]);
+        fprintf(tempFile, "%c", buffer[i] + keyArray[count]);
         //Used it to cycle the key.
-        if(count==4){
-            count=-1;
+        if (count == 4) {
+            count = -1;
         }
         count++;
     }
@@ -175,8 +175,8 @@ void Encrypt(FILE *readFile) {
     sprintf(accessG, "chmod g=r-- %s", filePath);
     system(accessG);
     //sets all elements of buffer and buffer1 to NULL.
-    memset(buffer,0,strlen(buffer));
-    memset(buffer1,0,strlen(buffer1));
+    memset(buffer, 0, strlen(buffer));
+    memset(buffer1, 0, strlen(buffer1));
 }
 
 /**
@@ -200,7 +200,7 @@ void Decrypt(FILE *readFile, int *keyBuffer) {
 
     //A while cycle that reads every line of the readFile (saves them to buffer1)
     //and appends them in buffer (thanks to buffer1).
-    while(fgets(buffer1,N,readFile)){
+    while (fgets(buffer1, N, readFile)) {
         strcat(buffer, buffer1);
     }
 
@@ -208,19 +208,19 @@ void Decrypt(FILE *readFile, int *keyBuffer) {
     tempFile = NULL;
 
     //Insert, through user input, the filePath of the decrypted file to create.
-    while(tempFile == NULL){
+    while (tempFile == NULL) {
         printf("Insert the filePath where you want to save the decrypted file: \n");
         scanf("%s", filePath);
         //Takes only the last 4 characters of the filePath.
-        char * last_four = &filePath[strlen(filePath) - 4];
+        char *last_four = &filePath[strlen(filePath) - 4];
         //Checks if the file is a .txt file comparing the last 4 characters with .txt.
-        if(strcmp(last_four,".txt") == 0){
+        if (strcmp(last_four, ".txt") == 0) {
             //checks if there is already a file with the same name within that filePath.
-            if(access(filePath, 0) == 0){
+            if (access(filePath, 0) == 0) {
                 printf("It already exists a file with this name.");
                 //used it to make the cycle repeat.
                 tempFile = NULL;
-            }else {
+            } else {
                 tempFile = fopen(filePath, "w");
             }
         }
@@ -232,7 +232,7 @@ void Decrypt(FILE *readFile, int *keyBuffer) {
     //Count is used to go through the keyBuffer.
     int count = 0;
     //We go through the buffer, and we decrypt it using the same key used to encrypt it.
-    for (int i=0; i < effectiveFileLength; i++) {
+    for (int i = 0; i < effectiveFileLength; i++) {
         //written the character obtained from the subtraction of the character saved
         //in the buffer and the key into the decrypted file.
         fprintf(tempFile, "%c", buffer[i] - keyBuffer[count]);
@@ -251,8 +251,8 @@ void Decrypt(FILE *readFile, int *keyBuffer) {
     sprintf(accessG, "chmod g=--- %s", filePath);
     system(accessG);
     //sets all elements of buffer and buffer1 to NULL.
-    memset(buffer,0,strlen(buffer));
-    memset(buffer1,0,strlen(buffer1));
+    memset(buffer, 0, strlen(buffer));
+    memset(buffer1, 0, strlen(buffer1));
 }
 
 /**
