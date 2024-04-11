@@ -44,4 +44,4 @@ int *getKey(FILE *keyFile);
  * @param file The file to be checked.
  * @return True if the file is empty, false otherwise.
  */
-bool isFileTxt(char *pathForFile, char *fileExtension);
+bool isRightFormat(char *pathForFile, char *fileExtension);

@@ -2,7 +2,6 @@
  * @author Christian Bonsignore 110381
  */
 #include <stdio.h>
-#include <string.h>
 #include "FileEncrypter.h"
 
 int userAnswer;
@@ -34,7 +33,7 @@ int main() {
                 printf("Insert the path of the file you want to encrypt: \n");
                 scanf("%s", filePath);
 
-                if (isFileTxt(filePath, ".txt") == true) {
+                if (isRightFormat(filePath, ".txt") == true) {
                     fileEncrypt = fopen(filePath, "r");
                     if (fileEncrypt == NULL) {
                         printf("Error: File not found.\n");
@@ -56,7 +55,7 @@ int main() {
                 printf("Insert the path of the file you want to decrypt: \n");
                 scanf("%s", filePath);
 
-                if (isFileTxt(filePath, ".txt") == true) {
+                if (isRightFormat(filePath, ".txt") == true) {
                     fileDecrypt = fopen(filePath, "r");
                 }
             }
@@ -67,7 +66,7 @@ int main() {
                 printf("Insert the path of the key: \n");
                 scanf("%s", filePath);
 
-                if (isFileTxt(filePath, ".txt") == true) {
+                if (isRightFormat(filePath, ".txt") == true) {
                     keyFile = fopen(filePath, "r");
                 }
             }

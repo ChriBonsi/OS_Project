@@ -101,7 +101,6 @@ int *getKey(FILE *keyFile) {
     return keyArray;
 }
 
-//TODO controllare perchè taglia ultimo carattere
 /**
  * At first the function checks if the pointer of the file to encrypt exists: if it doesn't, it prints
  * that the file can't be opened and returns, otherwise it keeps going.
@@ -126,7 +125,6 @@ void Encrypt(FILE *readFile) {
     //A while cycle that reads every line of the readFile (saves them to buffer1)
     //and appends them in buffer (thanks to buffer1).
     while (fgets(buffer1, N, readFile)) {
-        printf("line: %s", buffer1);
         strcat(buffer, buffer1);
     }
 
@@ -157,7 +155,7 @@ void Encrypt(FILE *readFile) {
     //Count is used to go through the keyArray.
     int count = 0;
     //We go through the buffer until the character before \0 (EOF), and we encrypt it while cycling the key.
-    for (int i = 0; i < effectiveFileLength - 1; i++) {
+    for (int i = 0; i < effectiveFileLength; i++) {
         //Writes to the encrypted file the character obtained from the sum of the character and key.
         fprintf(tempFile, "%c", buffer[i] + keyArray[count]);
         //Used it to cycle the key.
@@ -263,16 +261,15 @@ void Decrypt(FILE *readFile, int *keyBuffer) {
  *
  * @return true if the file is of the right extension, false otherwise.
  */
-bool isFileTxt(char *pathForFile, char *fileExtension) {
+bool isRightFormat(char *pathForFile, char *fileExtension) {
     //Takes only the last 4 characters of the filePath.
     char *last_four = &pathForFile[strlen(pathForFile) - 4];
-    //printf("%s\n", last_four);
 
     //Checks if the file is a .txt file comparing the last 4 characters with .txt.
     if (strcmp(last_four, fileExtension) == 0) {
-        printf("The file is a .txt file.\n");
+        printf("The file is a %s file.\n", fileExtension);
         return true;
     }
-    printf("The file is not a .txt file.\n");
+    printf("The file is not a %s file.\n", fileExtension);
     return false;
 }
