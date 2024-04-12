@@ -19,7 +19,6 @@ char buffer1[N];
 
 char filePath[N]; // Definition of the filePath variable
 
-
 /**
  * It generates a random key made of 5 digits and saves each one of them
  * in a file (separated by a comma). In the end it changes the access permissions
@@ -89,9 +88,7 @@ void generateRandomKey() {
 
 /**
  * This function reads the key file and stores the key values in an array
- *
  * @param keyFile The file that contains the key.
- *
  * @return The keyArray is being returned.
  */
 int *getKey(FILE *keyFile) {
@@ -109,9 +106,7 @@ int *getKey(FILE *keyFile) {
  * Then it goes through all the characters saved in the buffer; modifies them with the corresponding
  * cycling key digit, and writes them in the encrypted file.
  * In the end it sets the access permission to the file created so that everyone can only read it.
- *
  * @param readFile the file to be encrypted
- *
  */
 void Encrypt(FILE *readFile) {
     if (readFile == NULL) {
@@ -185,10 +180,8 @@ void Encrypt(FILE *readFile) {
  * modifies them with the corresponding cycling key digit, and writes them in the decrypted file.
  * In the end it sets the access permission to the file created so that only the file's owner can
  * read it.
- *
  * @param readFile The file we want to read from.
  * @param keyBuffer The key used to previously encrypt the file.
- *
  */
 void Decrypt(FILE *readFile, int *keyBuffer) {
     if (readFile == NULL) {
@@ -255,10 +248,8 @@ void Decrypt(FILE *readFile, int *keyBuffer) {
 
 /**
  * This function checks if the file has the required extension.
- *
  * @param pathForFile The path of the file to check.
  * @param fileExtension The extension of the file to check.
- *
  * @return true if the file is of the right extension, false otherwise.
  */
 bool isRightFormat(char *pathForFile, char *fileExtension) {
